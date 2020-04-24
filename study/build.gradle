@@ -1,0 +1,60 @@
+if (isUniqueApp.toBoolean()) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+android {
+    compileSdkVersion cfg.compileSdk
+    defaultConfig {
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
+        //ARouter设置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        multiDexEnabled true
+    }
+
+    sourceSets {
+        main{
+            if(isUniqueApp.toBoolean()){ //整体
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java{
+                    exclude 'debug/**'
+                }
+            }else{ //单独
+                manifest.srcFile 'src/main/java/debug/AndroidManifest.xml'
+            }
+        }
+    }
+    //引入对 DataBinding 的支持
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+//    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation project(':base')
+    annotationProcessor libs.arouterCompiler
+//    implementation 'org.jetbrains:annotations-java5:15.0'
+}

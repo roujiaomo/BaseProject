@@ -1,0 +1,6 @@
+rootProject.name='BaseProject'
+include ':app'
+include ':aspectlibrary'
+include ':base'
+include ':study'
+include ':http'

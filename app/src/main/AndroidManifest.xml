@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.roujiamo.sample">
+
+    <application
+        android:allowBackup="true"
+        android:name="com.roujiamo.base.base.App"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme">
+        <activity android:name=".IntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- 下方两个dp值 dp = px / (DPI / 160) 通常就是设计图宽高像素值 /2 或 /3 -->
+        <!-- github文档: https://github.com/JessYanCoding/AndroidAutoSize/blob/master/README-zh.md -->
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="360" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="780" /> <!-- ===============沉浸式状态栏适配===================== -->
+        <!-- 适配全面屏 -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" /> <!-- 适配华为（huawei）刘海屏 -->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" /> <!-- ===============沉浸式状态栏适配===================== -->
+    </application>
+
+</manifest>

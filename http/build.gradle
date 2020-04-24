@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion cfg.compileSdk
+    defaultConfig {
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
+        //ARouter设置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        multiDexEnabled true
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.2'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.2'
+    api libs.appcompat
+    api libs.retrofit
+    api libs.rxandroid
+    api libs.rxjava2
+    api libs.gson
+    api libs.rxbinding2
+    api libs.retrofitConverter
+    api libs.retrofitAdapter
+}

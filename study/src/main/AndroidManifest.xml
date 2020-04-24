@@ -1,0 +1,36 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.roujiamo.study" >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+        <activity android:name=".view.CustomImageViewActivity">
+        </activity>
+        <activity android:name=".view.event_dispatch.EventSampleActivity" />
+        <activity android:name=".view.event_dispatch.EventConflict1Activity" />
+        <activity android:name=".view.CustomViewActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".view.ServiceTestActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".view.AutoSizeTestActivity" /> <!-- 屏幕 适配 -->
+        <activity android:name=".view.MainActivity">
+
+        </activity>
+        <activity android:name=".view.ShareDataActivity" />
+        <activity android:name=".view.RxJavaExampleActivity" />
+        <activity android:name="com.roujiamo.base.base.BaseDataActivity" />
+        <activity android:name=".view.NewsActivity" />
+        <activity android:name=".view.event_dispatch.EventConflict3Activity" />
+        <activity android:name=".view.event_dispatch.EventConflict2Activity" />
+
+        <service android:name=".service.ExampleService" />
+    </application>
+</manifest>

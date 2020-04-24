@@ -1,0 +1,56 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.roujiamo.study" >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:theme="@style/AppTheme">
+    <activity android:name=".view.CustomImageViewActivity">
+
+    </activity>
+    <activity android:name=".view.event_dispatch.EventSampleActivity" />
+    <activity android:name=".view.event_dispatch.EventConflict1Activity" />
+    <activity android:name=".view.CustomViewActivity" >
+
+    </activity>
+
+    <activity
+        android:name=".view.ServiceTestActivity"
+        android:launchMode="singleInstance" />
+    <activity android:name=".view.AutoSizeTestActivity" /> <!-- 屏幕 适配 -->
+    <!-- 下方两个dp值 dp = px / (DPI / 160) 通常就是设计图宽高像素值 /2 或 /3 -->
+    <!-- github文档: https://github.com/JessYanCoding/AndroidAutoSize/blob/master/README-zh.md -->
+    <meta-data
+        android:name="design_width_in_dp"
+        android:value="360" />
+    <meta-data
+        android:name="design_height_in_dp"
+        android:value="780" /> <!-- ===============沉浸式状态栏适配===================== -->
+    <!-- 适配全面屏 -->
+    <meta-data
+        android:name="android.max_aspect"
+        android:value="2.4" /> <!-- 适配华为（huawei）刘海屏 -->
+    <meta-data
+        android:name="android.notch_support"
+        android:value="true" /> <!-- 适配小米（xiaomi）刘海屏 -->
+    <meta-data
+        android:name="notch.config"
+        android:value="portrait|landscape" /> <!-- ===============沉浸式状态栏适配===================== -->
+    <activity android:name=".view.MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity android:name=".view.ShareDataActivity" />
+    <activity android:name=".view.RxJavaExampleActivity" />
+    <activity android:name="com.roujiamo.base.base.BaseDataActivity" />
+    <activity android:name=".view.NewsActivity" />
+    <activity android:name=".view.event_dispatch.EventConflict3Activity" />
+    <activity android:name=".view.event_dispatch.EventConflict2Activity" />
+
+    <service android:name=".service.ExampleService" />
+</application>
+</manifest>

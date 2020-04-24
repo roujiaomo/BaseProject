@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion cfg.compileSdk
+    defaultConfig {
+        minSdkVersion cfg.minSdk
+        targetSdkVersion cfg.targetSdk
+        //ARouter设置
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        multiDexEnabled true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //引入对 DataBinding 的支持
+    dataBinding {
+        enabled = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//    debugImplementation "com.github.whataa:pandora:androidx_v2.0.6" //查看网络数据 沙盒 视图工具
+    //添加各个模块的基类 注意使用api(开放)代替implementation(不开放)
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api libs.utilcodex
+    api libs.constraintLayout
+    api libs.arouterApi
+    api libs.eventbus
+    api libs.lifecycle
+    api libs.recyclerview
+    api libs.material
+    api libs.autosize
+    api libs.glide
+    api libs.immersionbar
+    api libs.multidex
+    api project(':http')
+
+}
