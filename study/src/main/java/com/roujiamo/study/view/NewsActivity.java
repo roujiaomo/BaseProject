@@ -56,6 +56,7 @@ public class NewsActivity extends BaseDataActivity<NewsViewModel, ActivityNewsBi
         mViewModel.translationBeanValue.observe(this, new Observer<TranslationBean>() {
             @Override
             public void onChanged(TranslationBean translationBean) {
+
             }
         });
     }

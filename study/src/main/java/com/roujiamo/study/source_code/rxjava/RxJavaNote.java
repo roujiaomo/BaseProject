@@ -19,9 +19,7 @@ public class RxJavaNote {
         //订阅 传入Observer对象
         //subscribe() 方法内部调用 subscribeActual(Observer)方法
         //subscribeActual() 使用传入的Observer对象调用onSubscribe() onSuccess()方法
-        single
-
-                .subscribe(new SingleObserver<String>() {
+        single.subscribe(new SingleObserver<String>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
