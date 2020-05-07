@@ -33,7 +33,7 @@ public class NewsViewModel extends BaseViewModel {
         newsModel.getNews()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<TranslationBean>(loadStatusLiveData) {
+                        .subscribe(new BaseObserver<TranslationBean>(loadStatusLiveData) {
                     @Override
                     public void onSuccess(TranslationBean translationBean) {
                         translationBeanValue.setValue(translationBean);

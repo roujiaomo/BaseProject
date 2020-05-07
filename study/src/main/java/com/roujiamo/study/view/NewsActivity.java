@@ -13,7 +13,6 @@ import com.roujiamo.study.viewmodel.NewsViewModel;
 
 
 public class NewsActivity extends BaseDataActivity<NewsViewModel, ActivityNewsBinding> implements View.OnClickListener {
-    private NewsViewModel newsViewModel;
 
     @Override
     public int getLayoutId() {
@@ -36,19 +35,16 @@ public class NewsActivity extends BaseDataActivity<NewsViewModel, ActivityNewsBi
 
     @Override
     public void onClick(View v) {
-//        switch (v.getId()){
-//            case R.id.btn_request:
-//                mViewModel.getNews();
-//                break;
-//            case R.id.btn_jump_shareData:
-//                startActivity(new Intent(this, ShareDataActivity.class));
-//                break;
-//            case R.id.btn_jump_rxJavaExample:
-//                startActivity(new Intent(this, RxJavaExampleActivity.class));
-//                break;
-//        }
+        int id = v.getId();
+        if (id == R.id.btn_request) {
+            //网络请求
+            mViewModel.getNews();
+        } else if (id == R.id.btn_jump_shareData) {
+            startActivity(new Intent(this, ShareDataActivity.class));
+        } else if (id == R.id.btn_jump_rxJavaExample) {
+            startActivity(new Intent(this, RxJavaExampleActivity.class));
+        }
     }
-
 
     @Override
     public void initLiveDataObserve() {

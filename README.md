@@ -1,11 +1,72 @@
 <------------- 简介 ------------>
+
 整体搭建 基于AndroidX :
 架构: mvvm
-网络框架: Retrofit
+网络请求: Retrofit + RxJava
 数据传递: viewModel + liveData
-用法可见NewsActivity / NewsModel / NewsViewModel
-
 基类在base模块, 依赖在项目的build.gradle文件里
+
+<------------- Base模块说明 ------------>
+
+涉及网络请求的界面, 继承BaseDataActivity , BaseDataFragment/BaseLazyFragment
+不涉及网络请求的界面, 继承BaseActivity
+
+<------------- 网络请求  ------------>
+
+1.在 UrlConfig 中配置 baseUrl.
+  注意: baseUrl要求以/结尾 ,如 : http://v.juhe.cn/weather/
+
+2.所有网络请求调用方法在 ApiService 中统一管理 , get/post 用法里面有说明.
+  例:
+  @GET(".php?a=fy&f=auto&t=auto&w=hello%20fuck")
+    Observable<BaseResponse<TranslationBean>> getNews();
+  泛型中的 BaseResponse<TranslationBean> 是为了自己处理回调
+
+3.创建M(Model)层, 新建Model类,调用ApiService中的网络请求方法, 获取Observable<BaseResponse<TranslationBean>>对象
+
+ 例如NewModel :
+ public Observable<BaseResponse<TranslationBean>> getNews() {
+        return  HttpUtils.getInstance().getApiService().getNews();
+ }
+
+4.创建VM(ViewModel)层, 继承BaseViewModel(BaseViewModel中默认创建 loadStatusLiveData对象(用于控制网络请求的进度条))
+
+  在viewModel的构造方法中, 初始化Model层的对象 , 并创建网络请求返回的具体Bean类的对象(创建的方式为LiveData的方式).
+  在onSuccess()方法中, 为创建的Bean类对象赋值 translationBeanValue.setValue(translationBean);
+  例 :
+   newsModel.getNews()
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                          .subscribe(new BaseObserver<TranslationBean>(loadStatusLiveData) {
+                      @Override
+                      public void onSuccess(TranslationBean translationBean) {
+                          translationBeanValue.setValue(translationBean);
+                      }
+
+                      @Override
+                      public void onFailure(Throwable e, String errorMsg) { //errorMsg为后台返回的msg字段
+                          //处理其他状态码的信息
+                          //showDialog(); context 取 application
+                      }
+                  });
+
+  注 : 若使用BaseObserver, 则subscribe(new BaseObserver<TranslationBean>(loadStatusLiveData) 这一行需要手写
+
+
+5. 在V层请求/处理数据 : 在Activity/Fragment中, 继承的BaseActivity/BaseFragment(传入对应ViewModel泛型), 默认创建好了ViewModel对象:
+  请求数据:  mViewModel.getNews();
+  处理回调:  mViewModel.translationBeanValue.observe(this, new Observer<TranslationBean>() {
+                     @Override
+                     public void onChanged(TranslationBean translationBean) {
+                        //处理逻辑
+                     }
+            });
+
+
+用法可见study模块中 :  NewsActivity / NewsModel / NewsViewModel
+
+
+
 
 <------------- 关于组件化构建 ------------>
 
@@ -17,7 +78,7 @@
 
 4. 在项目根目录的build.gradle里, 加入版本号及常用依赖的配置
 
-5. 把各个模块需要依赖的 公共 库添加到base模块的build.gradle中 ,通过 libs.xxx , cfg.xxx的形式 (第一次需要手动复制?) ,
+5. 把各个模块需要依赖的 公共 库添加到base模块的build.gradle中 ,通过 libs.xxx , cfg.xxx的形式 (第一次需要手动复制) ,
     注意使用api(可公用)关键字
 
 6. 修改login,work模块的build.gradle文件 , 让各个模块依赖于base模块 ,注意业务模块要使用implementation关键字(不可公用)
